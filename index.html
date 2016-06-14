@@ -4,19 +4,48 @@
 
 <div id='a'></div>
 
-
-<script src="reactexe1.js"></script>
 <script src="reactexe2.js"></script>
-<script src="reactexe3.js"></script>
+
 
 <script>
-react= new React();
 
+react= new React();
+/*
+test1
+[ {tag: 'span', children: this.count, attrs: { id:'ciao'}},
+  {tag: 'button',attrs: { onClick: this.fun, id:1}, children: 'Increment' }]
+test2
+[{tag: 'div', attrs: {id:2}, 
+  			children: [{tag: 'p', attrs: {id:3}, children: this.text },
+  					   {tag: 'button', attrs: { onClick: this.funtext, id:44}, children: 'Increment' }
+  					  ]
+  } ]
+
+test3
+[ {tag: 'span', children: this.count, attrs: { id:'ciao'}},
+  {tag: 'button',attrs: { onClick: this.fun, id:1}, children: 'Increment' },
+  {tag: 'div', attrs: {id:2}, 
+  			children: [{tag: 'p', attrs: {id:3}, children: this.text },
+  					   {tag: 'button', attrs: { onClick: this.funtext, id:44}, children: 'Increment' }
+  					  ]
+  } 
+  ] 
+
+  
+*/
 counter = react.clas({
-			constructor: function() { this.count = 0; },
+			constructor: function() { this.count = 0; this.text="ciao";},
 			fun: function(event) { this.count += 1;},
+			funtext: function(event) { this.text += "ciao";},
 			render: function() { return [ {tag: 'span', children: this.count, attrs: { id:'ciao'}},
-										  {tag: 'button',attrs: { onClick: this.fun, id:'cia1'}, children: 'Increment' } ] }
+  {tag: 'button',attrs: { onClick: this.fun, id:1}, children: 'Increment' },
+  {tag: 'div', attrs: {id:2}, 
+  			children: [{tag: 'p', attrs: {id:3}, children: this.text },
+  					   {tag: 'button', attrs: { onClick: this.funtext, id:44}, children: 'Increment' }
+  					  ]
+  } 
+  ] 
+								}
 			});
 
 react.render(counter,document.getElementById("a"));

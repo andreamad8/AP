@@ -40,7 +40,7 @@ function React(){
 					e+=key+"='"+funobj.name+"()'";
 				}
 				// add children
-				e+=">"+generateHTML(node.children,component,DOM);
+				e+=">"+generateHTML(node.children);
 				e+="</"+node.tag+">";
 				return e;
 			}
