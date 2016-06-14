@@ -2,26 +2,25 @@
 <html>
 <body>
 
-
 <div id='a'></div>
 
-<script src="react.js"></script>
+
+<script src="reactexe1.js"></script>
+<script src="reactexe2.js"></script>
+<script src="reactexe3.js"></script>
+
 <script>
-
-
 react= new React();
 
 counter = react.clas({
 			constructor: function() { this.count = 0; },
-			onClick: function(event) { this.count += 1;},
-			render: function() { return [ { tag: 'span', children: this.count },{ tag: 'button',attrs: { onClick: this.onClick },children: 'Increment' } ] }
+			fun: function(event) { this.count += 1;},
+			render: function() { return [ {tag: 'span', children: this.count, attrs: { id:'ciao'}},
+										  {tag: 'button',attrs: { onClick: this.fun, id:'cia1'}, children: 'Increment' } ] }
 			});
 
 react.render(counter,document.getElementById("a"));
-
 </script>
-
-
 
 </body>
 </html>
