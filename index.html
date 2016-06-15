@@ -43,7 +43,8 @@ var counter = react.clas({
 			constructor: function() { this.count = 0; this.text="ciao";},
 			fun: function(event) { this.count += 1;},
 			funtext: function(event) { this.text += "ciao";},
-			render: function() { return [ {tag: 'span', children: this.count, attrs: { id:'ciao'}}, {tag: 'button',attrs: { onClick: this.fun}, children: 'Increment' }]
+			render: function() { return [{tag:'span',attrs:{id:'ciao'},children:{tag:'div',attrs:{id:'2'},children:{tag:'p',attrs:{id:'1'},children:this.count}}},{tag:'button',attrs:{onClick:this.fun},children:'Increment'}]
+
 																									}
 																				});
 

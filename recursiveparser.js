@@ -173,6 +173,6 @@ function parseJSX(jsx) {
   ris+="]";
   return ris;
 }
-var tex= "<span id='ciao'> {this.count} </span> <button onClick={this.fun}> 'Increment' </button>";
+var tex= "<span id='ciao'> <div id='2'> <p id='1'> {this.count} </p> </div> </span> <button onClick={this.fun}> 'Increment' </button>";
 
 console.log(parseJSX(tex));
