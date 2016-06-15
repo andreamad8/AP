@@ -1,18 +1,23 @@
-  
+
 function React(){
 	var index 		  = 0;
 	var idAttribute   = 0;
+
+
 	this.clas= function(obj){
-		
+
 		for (var funName in obj){
 			// to create bind name in a uniquly with the window
 			if (funName !== "constructor" && funName !== "render"){
 				var funId ='fun'+index++;
-				obj[funName] = {name: funId, fun: obj[funName]}; 
+				obj[funName] = {name: funId, fun: obj[funName]};
 			}
 		}
+    console.log(obj);
+
 		obj.constructor();
-		
+    console.log(obj);
+
 //		var vnode=obj.render();
 //		var temp = [];
 //		for (var i = 0; i < vnode.length; i++) {
@@ -39,10 +44,9 @@ function React(){
 
 
 	this.render = function(component,DOM){
-		
+
 		var virtualdom = component.render();
 		if (typeof component.old === "undefined"){
-			console.log(generateHTML(virtualdom));
 			DOM.innerHTML=generateHTML(virtualdom);
 		}
 		else{
@@ -74,7 +78,7 @@ function React(){
 				for  (var key in node.attrs){
 					var funobj = node.attrs[key];
 					(function(funobj){
-					window[funobj.name] = function(){	
+					window[funobj.name] = function(){
 						funobj.fun.bind(component)('?');
 						this.react.render(component,DOM);
 					}
@@ -101,26 +105,26 @@ function React(){
 		function diff(oldVdom,newVdom){
 			for (var i = 0; i < newVdom.length; i++) {
 				diffR(oldVdom[i],newVdom[i]);
-			}		
+			}
 
 		}
 
 		function diffR(oldVdom,newVdom){
-			if (typeof oldVdom !== "object" && newVdom !== "object") {
+			if (typeof oldVdom !== "object" && typeof newVdom !== "object") {
 				if(oldVdom !== newVdom){return 1;}}
-			else if(oldVdom.tag !== newVdom.tag){			
+			else if(oldVdom.tag !== newVdom.tag){
 					return 1;}
 			else{
-				if(oldVdom.children instanceof Array && newVdom.children instanceof Array){	
+				if(oldVdom.children instanceof Array && newVdom.children instanceof Array){
 					diff(oldVdom.children,newVdom.children);
 				}else if(diffR(oldVdom.children,newVdom.children)==1){
 					document.getElementById(newVdom.attrs.id).innerHTML=generateHTML(newVdom.children);
-			} 
 			}
-			
+			}
+
 
 		}
-		
+
 
 	}
 
