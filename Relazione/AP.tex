@@ -1,0 +1,101 @@
+\documentclass[10pt]{article}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\usepackage[margin=1.1in]{geometry}
+
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+
+
+\begin{document}
+\section*{Exercize 1}
+The Object Model chosen to represent a \textit{Component} is Prototype Object. This choice is guided by the fact that JavaScript, the language used in this project(JS in short), is an object-based language based on prototypes. Differently from conventional Object oriented programming languages, JS does not has the distinction between Class and Instance. Indeed, JS introduce the notion of prototypical object, i.e. objects are used as template from where to get the initial properties. Therefore, a basic implementation of class and render is given below.  
+\begin{lstlisting}[caption=Simplest definition of react component and a basic render method]
+var React = (function() {
+
+    var Component = function(obj) {
+        if (typeof obj.constructor !== "function")
+            obj.constructor = function() {};
+        if (typeof obj.render !== "function")
+            obj.render = function() {
+                return '';
+            };
+        return obj;
+    };
+
+
+    var generateHTML = function(node, funTemplate) {
+        if (typeof node !== "object") {
+            return node;
+        } else if (node instanceof Array) {
+            var elem = "";
+            for (var i = 0; i < node.length; i++) {
+                elem += generateHTML(node[i], funTemplate);
+            }
+            return elem;
+        } else {
+            var e = '';
+            e += "<" + node.tag + " ";
+            for (var key in node.attrs) {
+                e += key + "='" + node.attrs[key] + "'";
+            }
+            e += ">";
+            e += generateHTML(node.children, funTemplate);
+            e += "</" + node.tag + ">";
+            return e;
+        }
+    };
+    return {
+        class: function(obj) {
+            comp = Component(obj);
+            comp.constructor();
+            return comp;
+        },
+        render: function renderer(component, DOM) {
+            var virtualdom = component.render();
+            DOM.innerHTML = generateHTML(virtualdom, function(f) {
+                f.bind(component)('?');
+                renderer(component, DOM);
+            });
+        }
+    };
+})();
+\end{lstlisting}
+Notice that in this basic render, we didn't include the connection between function and methods. We will add more properties later. 
+\section*{Exercise 2}
+\section*{Exercise 3}
+To connect DOM events to the methods in the Component instance, we will modify two part of the previous code: Class and Generate HTML. In the first, we 
+\end{document}
