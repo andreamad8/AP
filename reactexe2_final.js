@@ -41,7 +41,6 @@ var React = (function() {
                     };
                 })(funobj);
                 if (!funobj.name) {
-                    console.log(funobj.name);
                     e += " " + key + "='" + node.attrs[key] + "'";
                 } else {
                     e += " " + key + "='" + funobj.name + "(event)'";
@@ -67,11 +66,13 @@ var React = (function() {
                 break;
             case "object":
                 if (oldVdom.tag !== newVdom.tag) {
-                    return newVdom.flag = fl.TAG;
+                    newVdom.flag = fl.TAG;
+                    return fl.MARKER;
                 } else {
                     for (var key in newVdom.attrs) {
                         if (key !== "onClick" && newVdom.attrs[key] !== oldVdom.attrs[key]) {
-                            return newVdom.flag = fl.ATT;
+                            newVdom.flag = fl.ATT;
+                            return fl.MARKER;
                         }
                     }
 
@@ -106,6 +107,8 @@ var React = (function() {
         }
     };
 
+    // we need to add some special cases, beacause the DOM treat the child
+    // asways as an Array. When we go through that we may find some different case
 
     var patch = function(newVdom, DOM, f) {
         if (typeof newVdom !== "object") {
@@ -133,7 +136,13 @@ var React = (function() {
                     DOM.appendChild(node);
                     break;
                 case fl.MARKER:
-                    patch(newVdom.children, DOM.children);
+                    if (typeof newVdom.children === "object" &&
+                        !(newVdom.children instanceof Array) ){
+                          patch([newVdom.children], DOM.children);
+                        }
+                    else {
+                          patch(newVdom.children, DOM.children);
+                    }
                     break;
             }
 
@@ -170,8 +179,9 @@ var React = (function() {
             if (component.old === null) {
                 DOM.innerHTML = generateHTML(virtualdom, f);
             } else {
-                diff(component.old, virtualdom);
-                patch(virtualdom, DOM.children, f);
+                if(diff(component.old, virtualdom)!==undefined){
+                  patch(virtualdom, DOM.children, f);
+                }
             }
             component.old = JSON.parse(JSON.stringify(virtualdom));
         }
