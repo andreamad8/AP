@@ -1,0 +1,8 @@
+jsxel := <tag jsxelrec |tagClose| jsxval
+jsxattr := [name=jsxval]* |\epsilon
+jsxrec  := jsxattr> jsxel* tagClose | />
+tagClose := </tag>
+tag := string
+name := string
+jsxval := " string " | { JS }
+JS := JavaScript expe

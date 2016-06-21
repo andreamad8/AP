@@ -1,6 +1,8 @@
 var TK = {
     OPENTAG: "OPENTAG",
     CLOSETAG: "CLOSETAG",
+    OPENWITHCLOSE: "OPENWITHCLOSE",
+    CLOSEWITHOPEN: "CLOSEWITHOPEN",
     BACKSLASH: "BACKSLASH",
     CURLYOPEN: "CURLYOPEN",
     CURLYCLOSE: "CURLYCLOSE",
@@ -52,21 +54,13 @@ var Tokenizer = function(t) {
                     token: TK.STRING,
                     value: str
                 };
-                return {
-                    token: TK.STRING,
-                    value: str
-                };
+                return currentToken;
             }
             at++;
             ch = t.charAt(at);
             str += ch;
         }
-        currentToken = {
-            token: TK.EOF
-        };
-        return {
-            token: TK.EOF
-        };
+        return currentToken;
     }
 
     this.next = function() {
@@ -77,9 +71,25 @@ var Tokenizer = function(t) {
         }
         while (ch !== " " && at < len) {
             if (val[ch] !== undefined) {
-                at++;
-                currentToken = val[ch];
-                return val[ch];
+                if (ch === "<" && t.charAt(at + 1) === "/") {
+                    at += 2;
+                    currentToken = {
+                        token: TK.OPENWITHCLOSE
+                    };
+                    return currentToken;
+                } else if (ch === "/" && t.charAt(at + 1) === ">") {
+                    at += 2;
+                    currentToken = {
+                        token: TK.CLOSEWITHOPEN
+                    };
+                    return currentToken;
+                } else {
+                    at++;
+                    currentToken = val[ch];
+                    return currentToken;
+                }
+
+
             } else {
                 var stri = parseString();
                 currentToken = stri;
@@ -89,9 +99,7 @@ var Tokenizer = function(t) {
         currentToken = {
             token: TK.EOF
         };
-        return {
-            token: TK.EOF
-        };
+        return currentToken;
     };
 
     this.get = function() {
@@ -129,13 +137,12 @@ var parser = function(text) {
         T.next();
         while (T.get().token != TK.EOF) {
             nodes.push(jsxel());
-            T.next();
         }
-        console.log(JSON.stringify(nodes))
+        console.log(JSON.stringify(nodes));
     };
 
 
-    function jsxel() {
+    function jsxel(n) {
         if (T.get().token === TK.OPENTAG) {
             T.next();
             if (T.get().token === TK.STRING) {
@@ -143,6 +150,8 @@ var parser = function(text) {
                 T.next();
                 return jsxelrec(node);
             }
+        } else if (T.get().token === TK.OPENWITHCLOSE) {
+            tagClose(n);
         } else {
             return jsxval();
         }
@@ -150,26 +159,36 @@ var parser = function(text) {
     }
 
     function jsxelrec(node) {
-        if (T.get().token === TK.BACKSLASH) {
+
+        if (T.get().token === TK.CLOSEWITHOPEN) {
             T.next();
-            if (T.get().token === TK.CLOSETAG) {
-                console.log("TAGCLOSE");
-            }
+            return node;
         } else {
             jsxelattr(node);
             if (T.get().token === TK.CLOSETAG) {
                 T.next();
-                var val = jsxel();
-                if (val.type) {
-                    node.children = val.value;
+                if (T.get().token === TK.OPENWITHCLOSE) {
+                    tagClose(node);
                 } else {
-                    if (!node.children)
-                        node.children = [];
-                    node.children.push(val);
+                    while (T.get().token !== TK.OPENWITHCLOSE) {
+                        var val = jsxel(node);
+                        if (val.type) {
+                            node.children = val.value;
+                        } else {
+                            if (!node.children)
+                                node.children = [];
+                            node.children.push(val);
+                        }
+
+                    }
+                    tagClose(node);
+                    console.log(T.get().token);
                 }
 
+            } else {
+                return error("missing closing tag");
             }
-            tagClose(node);
+
             return node;
         }
     }
@@ -200,25 +219,21 @@ var parser = function(text) {
     }
 
     function tagClose(node) {
-        if (T.get().token === TK.OPENTAG) {
+
+        if (T.get().token === TK.OPENWITHCLOSE) {
             T.next();
-            if (T.get().token === TK.BACKSLASH) {
+            if (T.get().token === TK.STRING && T.get().value === node.tag) {
                 T.next();
-                if (T.get().token === TK.STRING) {
+                if (T.get().token === TK.CLOSETAG) {
                     T.next();
-                    if (T.get().token === TK.CLOSETAG) {
-                        T.next();
-                    } else {
-                        error('missing and >');
-                    }
                 } else {
-                    error('tag name or tag name is wrong');
+                    error('missing and >');
                 }
             } else {
-                error('miss /');
+                error('tag name or tag name is wrong');
             }
         } else {
-            error('missing and <');
+            error('missing and </');
         }
     }
 
@@ -275,8 +290,11 @@ var parser = function(text) {
             error('wrong jsxval');
         }
     }
+
+
 };
-var jsx = ' <span test="sdasdasdsa" test1={this.pippo} a="12">  <div><p>"dasda"</p></div></span>  ';
+
+var jsx = ' <span> <span>"a"</span> <p>"b"</p>  </span> <span> <span>"a"</span> <p>"b"</p>  </span>';
 
 p = new parser(jsx);
 p.parse();
