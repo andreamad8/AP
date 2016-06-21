@@ -95,3 +95,9 @@ return  [{tag: 'div',
   } ]
 }
 });
+
+
+var f = function(f, e) {
+    f.bind(component)(e);
+    renderer(component, DOM);
+};

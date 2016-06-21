@@ -10,13 +10,13 @@ var React = (function() {
         return obj;
     };
 
-    var generateHTML = function(node, funTemplate) {
+    var generateHTML = function(node) {
         if (typeof node !== "object") {
             return node;
         } else if (node instanceof Array) {
             var elem = "";
             for (var i = 0; i < node.length; i++) {
-                elem += generateHTML(node[i], funTemplate);
+                elem += generateHTML(node[i]);
             }
             return elem;
         } else {
@@ -26,7 +26,7 @@ var React = (function() {
                 e += key + "='" + node.attrs[key] + "'";
             }
             e += ">";
-            e += generateHTML(node.children, funTemplate);
+            e += generateHTML(node.children);
             e += "</" + node.tag + ">";
             return e;
         }
@@ -39,10 +39,7 @@ var React = (function() {
         },
         render: function renderer(component, DOM) {
             var virtualdom = component.render();
-            DOM.innerHTML = generateHTML(virtualdom, function(f) {
-                f.bind(component)();
-                renderer(component, DOM);
-            });
+            DOM.innerHTML = generateHTML(virtualdom);
         }
     };
 })();

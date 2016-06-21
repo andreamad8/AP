@@ -1,5 +1,4 @@
 var React = (function() {
-
     var index = 0;
     var Component = function(obj) {
         if (typeof obj.constructor !== "function")
@@ -19,7 +18,6 @@ var React = (function() {
         TAG: 4,
         ATT: 5
     };
-
     var generateHTML = function(node, funTemplate) {
         if (typeof node !== "object") {
             return node;
@@ -32,7 +30,6 @@ var React = (function() {
         } else {
             var e = '';
             e += "<" + node.tag;
-            // to render attr we use reflexion
             for (var key in node.attrs) {
                 var funobj = node.attrs[key];
                 (function(funobj) {
@@ -52,7 +49,6 @@ var React = (function() {
             return e;
         }
     };
-
     var diff = function(oldVdom, newVdom) {
         switch (type(oldVdom, newVdom)) {
             case "array":
@@ -93,7 +89,6 @@ var React = (function() {
 
         }
     };
-
     var type = function(oldVdom, newVdom) {
         if (oldVdom instanceof Array && newVdom instanceof Array)
             return "array";
@@ -106,10 +101,6 @@ var React = (function() {
             return null;
         }
     };
-
-    // we need to add some special cases, beacause the DOM treat the child
-    // asways as an Array. When we go through that we may find some different case
-
     var patch = function(newVdom, DOM, f) {
         if (typeof newVdom !== "object") {
             return newVdom;
@@ -137,19 +128,16 @@ var React = (function() {
                     break;
                 case fl.MARKER:
                     if (typeof newVdom.children === "object" &&
-                        !(newVdom.children instanceof Array) ){
-                          patch([newVdom.children], DOM.children);
-                        }
-                    else {
-                          patch(newVdom.children, DOM.children);
+                        !(newVdom.children instanceof Array)) {
+                        patch([newVdom.children], DOM.children);
+                    } else {
+                        patch(newVdom.children, DOM.children);
                     }
                     break;
             }
 
         }
     };
-
-
     return {
         class: function(obj) {
             comp = Component(obj);
@@ -168,7 +156,6 @@ var React = (function() {
             comp.constructor();
             return comp;
         },
-
         render: function renderer(component, DOM) {
 
             var virtualdom = component.render();
@@ -179,8 +166,8 @@ var React = (function() {
             if (component.old === null) {
                 DOM.innerHTML = generateHTML(virtualdom, f);
             } else {
-                if(diff(component.old, virtualdom)!==undefined){
-                  patch(virtualdom, DOM.children, f);
+                if (diff(component.old, virtualdom) !== undefined) {
+                    patch(virtualdom, DOM.children, f);
                 }
             }
             component.old = JSON.parse(JSON.stringify(virtualdom));

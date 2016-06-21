@@ -2,7 +2,7 @@ var at, // current index of JSON text
     ch; // character at current index
 var result;
 var next = function() {
-    at += 1
+    at += 1;
     ch = tex.charAt(at); // json is the JSON text passed into our parser
     return ch;
 };
