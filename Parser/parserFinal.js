@@ -95,9 +95,6 @@ function Tokenaizer(stream) {
 //while (tokenaizer.next()) {
 //  console.log(tokenaizer.get());
 //}
-
-
-
 var Node = function(tag) {
     this.tag = tag;
 };

@@ -17,7 +17,8 @@ var React = (function() {
         LEAF: 1,
         NEWNODE: 2,
         TAG: 4,
-        ATT: 5
+        ATT: 5,
+        DEL: 6
     };
     var generateHTML = function(node, funTemplate) {
         if (typeof node !== "object") {
@@ -75,7 +76,8 @@ var React = (function() {
 
                 }
                 var childVal = diff(oldVdom.children, newVdom.children);
-                if (childVal === fl.LEAF || childVal === fl.NEWNODE || childVal === fl.MARKER) {
+                if (childVal === fl.LEAF || childVal === fl.NEWNODE ||
+                    childVal === fl.MARKER || childVal === fl.DEL) {
                     newVdom.flag = childVal;
                     return fl.MARKER;
                 }
@@ -85,23 +87,29 @@ var React = (function() {
                     return fl.LEAF;
                 }
                 break;
-            case null:
+            case "del":
+                return fl.DEL;
+            case "ins":
                 return fl.NEWNODE;
 
         }
     };
     var type = function(oldVdom, newVdom) {
-        if (oldVdom instanceof Array && newVdom instanceof Array)
-            return "array";
-        else if (typeof oldVdom === "object" && typeof newVdom === "object")
+        if (oldVdom instanceof Array && newVdom instanceof Array) {
+            if (oldVdom.length > newVdom.length) {
+                return "del";
+            } else if (oldVdom.length < newVdom.length) {
+                return "ins";
+            } else {
+                return "array";
+            }
+        } else if (typeof oldVdom === "object" && typeof newVdom === "object")
             return "object";
         else if (typeof oldVdom === "string" && typeof newVdom === "string" ||
             typeof oldVdom === "number" && typeof newVdom === "number")
             return "literal";
-        else {
-
+        else
             return null;
-        }
     };
     var patch = function(newVdom, DOM, f) {
         if (typeof newVdom !== "object") {
@@ -123,11 +131,15 @@ var React = (function() {
                         DOM.setAttribute(key, newVdom.attrs[key]);
                     }
                     break;
+                case fl.DEL:
+                    DOM.outerHTML = generateHTML(newVdom, f);
+                    break;
                 case fl.NEWNODE:
-                    var elemtoadd = newVdom.children[newVdom.children.length - 1];
-                    var node = document.createElement(elemtoadd.tag);
-                    node.innerHTML = generateHTML(elemtoadd.children, f);
-                    DOM.appendChild(node);
+                    DOM.outerHTML = generateHTML(newVdom, f);
+                    //var elemtoadd = newVdom.children[newVdom.children.length - 1];
+                    //var node = document.createElement(elemtoadd.tag);
+                    //node.innerHTML = generateHTML(elemtoadd.children, f);
+                    //DOM.appendChild(node);
                     break;
                 case fl.MARKER:
                     if (typeof newVdom.children === "object" &&
@@ -170,6 +182,7 @@ var React = (function() {
                     DOM.innerHTML = generateHTML(virtualdom, f);
                 } else {
                     if (diff(component.old, virtualdom) !== undefined) {
+                        console.log(virtualdom);
                         patch(virtualdom, DOM.children, f);
                     }
                 }
