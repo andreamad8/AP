@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.2.27)  20 JUN 2016 14:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.2.27)  23 JUN 2016 10:28
 entering extended mode
 **./AP.tex
 (AP.tex
@@ -211,25 +211,46 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@dimlist=\toks16
 
 ("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry
-.cfg")) (AP.aux)
+.cfg"))
+("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx
+.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics
+.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty
+"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\graphics
+.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+)
+\Gin@req@height=\dimen119
+\Gin@req@width=\dimen120
+) (AP.aux)
 \openout1 = `AP.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
 \AtBeginShipoutBox=\box28
-Package hyperref Info: Link coloring OFF on input line 44.
+Package hyperref Info: Link coloring OFF on input line 50.
 
 ("C:\Users\Andrea\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref.
 sty"
@@ -241,9 +262,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count109
 )
-LaTeX Info: Redefining \ref on input line 44.
-LaTeX Info: Redefining \pageref on input line 44.
-LaTeX Info: Redefining \nameref on input line 44.
+LaTeX Info: Redefining \ref on input line 50.
+LaTeX Info: Redefining \pageref on input line 50.
+LaTeX Info: Redefining \nameref on input line 50.
  (AP.out) (AP.out)
 \@outlinefile=\write3
 \openout3 = `AP.out'.
@@ -254,13 +275,13 @@ LaTeX Info: Redefining \nameref on input line 44.
 kii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count111
-\scratchdimen=\dimen119
+\scratchdimen=\dimen121
 \scratchbox=\box29
 \nofMPsegments=\count112
 \nofMParguments=\count113
 \everyMPshowfont=\toks17
 \MPscratchCnt=\count114
-\MPscratchDim=\dimen120
+\MPscratchDim=\dimen122
 \MPnumerator=\count115
 \makeMPintoPDFobject=\count116
 \everyMPtoPDFconversion=\toks18
@@ -273,15 +294,15 @@ kii"
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(79.49744pt, 455.30013pt, 79.49744pt)
-* v-part:(T,H,B)=(79.49744pt, 635.97511pt, 79.49744pt)
+* h-part:(L,W,R)=(101.17755pt, 411.9399pt, 101.17755pt)
+* v-part:(T,H,B)=(101.17755pt, 592.61488pt, 101.17755pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=455.30013pt
-* \textheight=635.97511pt
-* \oddsidemargin=7.22745pt
-* \evensidemargin=7.22745pt
-* \topmargin=-29.77255pt
+* \textwidth=411.9399pt
+* \textheight=592.61488pt
+* \oddsidemargin=28.90756pt
+* \evensidemargin=28.90756pt
+* \topmargin=-8.09244pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -299,48 +320,71 @@ kii"
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 47.
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 48.
-[1
+<university.jpeg, id=3, 287.0725pt x 293.095pt>
+File: university.jpeg Graphic file (type jpg)
+ <use university.jpeg>
+Package pdftex.def Info: university.jpeg used on input line 67.
+(pdftex.def)             Requested size: 123.58322pt x 126.17596pt.
+ [1
 
-{C:/Users/Andrea/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+{C:/Users/Andrea/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./universi
+ty.jpeg>]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 79.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 80.
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.131 \section
+              *{Exercise 2} [1]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 123.
+(Font)              <7> on input line 150.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 123.
- [2]
-[3] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 289.
- [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 289.
+(Font)              <5> on input line 150.
+ [2] [3] [4] [5] [6] [7] [8] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 567--572
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 567--572
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 599.
+[10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 599.
  (AP.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 289.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 289.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 599.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 599.
 Package rerunfilecheck Info: File `AP.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 289.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 599.
  ) 
 Here is how much of TeX's memory you used:
- 6763 strings out of 493634
- 100443 string characters out of 3134831
- 315322 words of memory out of 3000000
- 9913 multiletter control sequences out of 15000+200000
+ 7250 strings out of 493634
+ 107246 string characters out of 3134831
+ 341366 words of memory out of 3000000
+ 10129 multiletter control sequences out of 15000+200000
  5226 words of font info for 20 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 29i,6n,40p,712b,1718s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,6n,40p,774b,1716s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
 s/cm/cmbx12.pfb><C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmmi10.pfb><C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Andrea/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Andrea/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/
-Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.p
-fb>
-Output written on AP.pdf (5 pages, 123255 bytes).
+9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Andrea/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Andrea/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/
+Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pf
+b><C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmti10.pfb><C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmtt10.pfb><C:/Users/Andrea/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on AP.pdf (11 pages, 253126 bytes).
 PDF statistics:
- 326 PDF objects out of 1000 (max. 8388607)
- 232 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 668 PDF objects out of 1000 (max. 8388607)
+ 490 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

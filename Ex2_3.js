@@ -1,15 +1,16 @@
+function Component(obj) {
+    this.constructor = function() {};
+    this.render = function() {
+        return '';
+    };
+    for (var key in obj) {
+        this[key] = obj[key];
+    }
+    this.old = null;
+}
+
 var React = (function() {
     var index = 0;
-    var Component = function(obj) {
-        if (typeof obj.constructor !== "function")
-            obj.constructor = function() {};
-        if (typeof obj.render !== "function")
-            obj.render = function() {
-                return '';
-            };
-        obj.old = null;
-        return obj;
-    };
 
     var fl = {
         MARKER: 3,
@@ -98,6 +99,7 @@ var React = (function() {
             typeof oldVdom === "number" && typeof newVdom === "number")
             return "literal";
         else {
+
             return null;
         }
     };
@@ -122,8 +124,9 @@ var React = (function() {
                     }
                     break;
                 case fl.NEWNODE:
-                    var node = document.createElement(newVdom.tag);
-                    node.innerHTML = generateHTML(newVdom.children[newVdom.children.length - 1], f);
+                    var elemtoadd = newVdom.children[newVdom.children.length - 1];
+                    var node = document.createElement(elemtoadd.tag);
+                    node.innerHTML = generateHTML(elemtoadd.children, f);
                     DOM.appendChild(node);
                     break;
                 case fl.MARKER:
@@ -140,9 +143,8 @@ var React = (function() {
     };
     return {
         class: function(obj) {
-            comp = Component(obj);
+            var comp = new Component(obj);
             for (var funName in comp) {
-
                 if (funName !== "constructor" &&
                     funName !== "render" &&
                     funName !== "old") {
@@ -157,20 +159,24 @@ var React = (function() {
             return comp;
         },
         render: function renderer(component, DOM) {
-
             var virtualdom = component.render();
-            var f = function(f, e) {
-                f.bind(component)(e);
-                renderer(component, DOM);
-            };
-            if (component.old === null) {
-                DOM.innerHTML = generateHTML(virtualdom, f);
-            } else {
-                if (diff(component.old, virtualdom) !== undefined) {
-                    patch(virtualdom, DOM.children, f);
+            //check wherether is a node or a component
+            if (!(virtualdom instanceof Component)) {
+                var f = function(f, e) {
+                    f.bind(component)(e);
+                    renderer(component, DOM);
+                };
+                if (component.old === null) {
+                    DOM.innerHTML = generateHTML(virtualdom, f);
+                } else {
+                    if (diff(component.old, virtualdom) !== undefined) {
+                        patch(virtualdom, DOM.children, f);
+                    }
                 }
+                component.old = JSON.parse(JSON.stringify(virtualdom));
+            } else {
+                renderer(virtualdom, DOM);
             }
-            component.old = JSON.parse(JSON.stringify(virtualdom));
         }
     };
 

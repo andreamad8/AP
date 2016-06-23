@@ -11,16 +11,12 @@ var TK = {
     EOF: "EOF",
     STRING: "STRING"
 };
-
 var val = {
     "<": {
         token: TK.OPENTAG
     },
     ">": {
         token: TK.CLOSETAG
-    },
-    "/": {
-        token: TK.BACKSLASH
     },
     "{": {
         token: TK.CURLYOPEN
@@ -36,8 +32,6 @@ var val = {
     }
 };
 
-
-
 var Tokenizer = function(t) {
     var len = t.length;
     var at = 0;
@@ -45,102 +39,113 @@ var Tokenizer = function(t) {
 
     function parseString() {
         var ch = t.charAt(at);
-        var str = ch;
+        var str = '';
+        console.log(str, ch);
         while (ch !== " " && at < len) {
-            if (val[t.charAt(at + 1)] !== undefined ||
-                t.charAt(at + 1) === " ") {
-                at++;
-                currentToken = {
+          // console.log(str, ch);
+            if (ch == '/' || val[t.charAt(at)] !== undefined || t.charAt(at) == " ") {
+                return {
                     token: TK.STRING,
                     value: str
                 };
-                return currentToken;
+            } else {
+                str += ch;
             }
             at++;
             ch = t.charAt(at);
-            str += ch;
         }
-        return currentToken;
+
+        return {
+            token: TK.EOF
+        };
     }
 
     this.next = function() {
+
         var ch = t.charAt(at);
         while (ch === " ") {
             at++;
             ch = t.charAt(at);
         }
-        while (ch !== " " && at < len) {
-            if (val[ch] !== undefined) {
-                if (ch === "<" && t.charAt(at + 1) === "/") {
-                    at += 2;
+        var prec = '';
+        while (at < len) {
+            console.log(prec,ch);
+            if (prec === '' && (val[ch] !== undefined || ch == '/')) {
+                if ((ch == '<' || ch == '/')) {
+                    at++;
+                } else {
+                    currentToken = val[ch];
+                    at++;
+                    return currentToken;
+                }
+            } else if (prec === "/" && ch === ">") {
+                at++;
+                currentToken = {
+                    token: TK.CLOSEWITHOPEN
+                };
+                return currentToken;
+            } else if (prec === "<") {
+                if (ch === "/") {
+                    at++;
                     currentToken = {
                         token: TK.OPENWITHCLOSE
                     };
                     return currentToken;
-                } else if (ch === "/" && t.charAt(at + 1) === ">") {
-                    at += 2;
-                    currentToken = {
-                        token: TK.CLOSEWITHOPEN
-                    };
-                    return currentToken;
                 } else {
-                    at++;
-                    currentToken = val[ch];
-                    return currentToken;
+                    return currentToken = {
+                        token: TK.OPENTAG
+                    };
                 }
-
-
             } else {
-                var stri = parseString();
-                currentToken = stri;
-                return stri;
+                currentToken = parseString();
+                return currentToken;
             }
+            prec = ch;
+            ch = t.charAt(at);
         }
-        currentToken = {
+        return currentToken = {
             token: TK.EOF
         };
-        return currentToken;
+
     };
 
     this.get = function() {
         return currentToken;
     };
-
-
 };
 
-/*
-jsxel := <tag jsxelrec | jsxval
-jsxelattr := [name=jsxval]* |\epsilon
-jsxelrec  := jsxelattr> jsxel* tagClose | />
-tagClose := </tag>
-tag := string
-name := string
-jsxval := " string " | { JS }
-JS := JavaScript expe
-*/
+//var jsx = ' <span asdasd= "dasdas"><p></p> <p> "hsad" </p> </span>';
+var jsx = ' <spsaasdsasan asdasd= "dasdas"><p></p> <p> "hsad" </p> </span>';
+
+T = new Tokenizer(jsx);
+
+T.next();
+console.log(T.get());
+while (T.get().token != TK.EOF) {
+    T.next();
+    console.log(T.get());
+
+}
+
+
+
+
 
 var Node = function(tag) {
     this.tag = tag;
 };
 
-
-var error = function(message) { // throw error for bad syntax
-    console.log(message);
-    throw undefined;
-};
-
-var parser = function(text) {
-    var T = new Tokenizer(text);
+var parser = function() {
     var nodes = [];
-    this.parse = function() {
+    this.parse = function(text) {
+        T = new Tokenizer(text);
+
         T.next();
         while (T.get().token != TK.EOF) {
             nodes.push(jsxel());
         }
-        console.log(JSON.stringify(nodes));
+        return nodes;
     };
-
 
     function jsxel(n) {
         if (T.get().token === TK.OPENTAG) {
@@ -148,23 +153,20 @@ var parser = function(text) {
             if (T.get().token === TK.STRING) {
                 var node = new Node(T.get().value);
                 T.next();
-                return jsxelrec(node);
+                return jsxrec(node);
             }
-        } else if (T.get().token === TK.OPENWITHCLOSE) {
-            tagClose(n);
         } else {
             return jsxval();
         }
 
     }
 
-    function jsxelrec(node) {
-
+    function jsxrec(node) {
         if (T.get().token === TK.CLOSEWITHOPEN) {
             T.next();
             return node;
         } else {
-            jsxelattr(node);
+            jsxattr(node);
             if (T.get().token === TK.CLOSETAG) {
                 T.next();
                 if (T.get().token === TK.OPENWITHCLOSE) {
@@ -179,24 +181,20 @@ var parser = function(text) {
                                 node.children = [];
                             node.children.push(val);
                         }
-
                     }
                     tagClose(node);
-                    console.log(T.get().token);
                 }
 
             } else {
-                return error("missing closing tag");
+                throw new Error("missing closing tag");
             }
-
             return node;
         }
     }
 
-    function jsxelattr(node) {
-        var attr = {};
-        var attrname;
-        var attrvalue;
+    function jsxattr(node) {
+        var attr = {},
+            attrname, attrvalue;
         while (T.get().token !== TK.CLOSETAG) {
             if (T.get().token === TK.STRING) {
                 attrname = T.get().value;
@@ -204,12 +202,11 @@ var parser = function(text) {
                 if (T.get().token === TK.EQUAL) {
                     T.next();
                     attrvalue = jsxval().value;
-
                 } else {
-                    error('miss equal');
+                    throw new Error('miss equal');
                 }
             } else {
-                error('attribute name error');
+                throw new Error('attributt error');
             }
             attr[attrname] = attrvalue;
         }
@@ -219,7 +216,6 @@ var parser = function(text) {
     }
 
     function tagClose(node) {
-
         if (T.get().token === TK.OPENWITHCLOSE) {
             T.next();
             if (T.get().token === TK.STRING && T.get().value === node.tag) {
@@ -227,13 +223,13 @@ var parser = function(text) {
                 if (T.get().token === TK.CLOSETAG) {
                     T.next();
                 } else {
-                    error('missing and >');
+                    throw new Error('missing and >');
                 }
             } else {
-                error('tag name or tag name is wrong');
+                throw new Error('tag name is wrong');
             }
         } else {
-            error('missing and </');
+            throw new Error('missing and </');
         }
     }
 
@@ -252,7 +248,7 @@ var parser = function(text) {
                         value: value
                     };
                 } else {
-                    error('jsxval string miss');
+                    throw new Error('jsxval string miss');
                 }
             } else if (T.get().token === TK.QUOTE) {
                 T.next();
@@ -261,7 +257,7 @@ var parser = function(text) {
                     value: ""
                 };
             } else {
-                error('ERROR');
+                throw new Error('ERROR');
             }
         } else if (T.get().token === TK.CURLYOPEN) {
             T.next();
@@ -275,7 +271,7 @@ var parser = function(text) {
                         value: value
                     };
                 } else {
-                    error('jsxval string miss');
+                    throw new Error('jsxval string miss');
                 }
             } else if (T.get().token === TK.CURLYCLOSE) {
                 T.next();
@@ -284,17 +280,20 @@ var parser = function(text) {
                     value: ""
                 };
             } else {
-                error('"ERROR"');
+                throw new Error('"ERROR"');
             }
         } else {
-            error('wrong jsxval');
+            throw new Error('wrong jsxval');
         }
     }
-
-
 };
 
-var jsx = ' <span> <span>"a"</span> <p>"b"</p>  </span> <span> <span>"a"</span> <p>"b"</p>  </span>';
 
-p = new parser(jsx);
-p.parse();
+p = new parser();
+
+console.log(JSON.stringify(p.parse(jsx)));
+// var fs = require('fs');
+// fs.readFile('Testcomponent.txt', function(err, data) {
+//     if (err) throw err;
+//     console.log(data);
+// });
