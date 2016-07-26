@@ -1,17 +1,17 @@
-function Component(obj) {
-    this.constructor = function() {};
-    this.render = function() {
-        return '';
-    };
-    for (var key in obj) {
-        this[key] = obj[key];
-    }
-    this.old = null;
-}
+
 
 var React = (function() {
     var index = 0;
-
+    function Component(obj) {
+        this.constructor = function() {};
+        this.render = function() {
+            return '';
+        };
+        for (var key in obj) {
+            this[key] = obj[key];
+        }
+        this.old = null;
+    }
     var fl = {
         MARKER: 3,
         LEAF: 1,

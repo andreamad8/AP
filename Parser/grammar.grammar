@@ -1,8 +1,0 @@
-jsxel := < tag jsxrec | jsxval
-jsxattr := [name=jsxval]* | \epsilon
-jsxrec  := jsxattr> jsxel* tagClose | />
-tagClose := </tag>
-jsxval := " string " | { JS }
-JS := JavaScript expe
-tag := string
-name := string
